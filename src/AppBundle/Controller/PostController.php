@@ -13,12 +13,12 @@ class PostController extends Controller
      * @Route("/post", name="view_post_route")
      */
     public function viewPostAction() {
-        $post = $this->getDoctrine()->getRepository('AppBundle:Post')->findAll();
-        echo '<pre>';
-        print_r($post);
-        echo '<pre>';
-        exit();
-        return $this->render("pages/index.html.twig");
+        $posts = $this->getDoctrine()->getRepository('AppBundle:Post')->findAll();
+        // echo '<pre>';
+        // print_r($post);
+        // echo '<pre>';
+        // exit();
+        return $this->render("pages/index.html.twig", ['posts' => $posts]);
     }
     /**
      * @Route("/post/create", name="create_post_route")
