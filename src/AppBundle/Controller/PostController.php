@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -12,6 +13,11 @@ class PostController extends Controller
      * @Route("/post", name="view_post_route")
      */
     public function viewPostAction() {
+        $post = $this->getDoctrine()->getRepository('AppBundle:Post')->findAll();
+        echo '<pre>';
+        print_r($post);
+        echo '<pre>';
+        exit();
         return $this->render("pages/index.html.twig");
     }
     /**
