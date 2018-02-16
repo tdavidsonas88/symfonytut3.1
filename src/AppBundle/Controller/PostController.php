@@ -60,7 +60,49 @@ class PostController extends Controller
      * @Route("/post/update/{id}", name="update_post_route")
      */
     public function updatePostAction($id, Request $request) {
-        return $this->render("pages/update.html.twig");
+        // echo $id;
+        // exit();
+        $post = $this->getDoctrine()->getRepository('AppBundle:Post')->find($id);
+        // echo "<pre>";
+        // print_r($post);
+        // echo "</pre>";
+        // exit();
+
+        // $post->setTitle($post->getTitle());
+        // $post->setDescription($post->getDescription());
+        // $post->setCategory($post->getCategory());
+
+        $form = $this->createFormBuilder($post)
+            ->add('title', TextType::class, array('attr' => array('class' => 'form-control')))
+            ->add('description', TextareaType::class, array('attr' => array('class' => 'form-control')))
+            ->add('category', TextType::class, array('attr' => array('class' => 'form-control')))
+            ->add('save', SubmitType::class, array('label' => 'Update Post','attr' => array('class' 
+                => 'btn btn-primary', 'style' => 'margin-top: 10px;')))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $title = $form['title']->getData();
+            $description = $form['description']->getData();
+            $category = $form['category']->getData();
+
+            $em = $this->getDoctrine()->getManager();
+            $post = $em->getRepository('AppBundle:Post')->find($id);
+
+            $post->setTitle($title);
+            $post->setDescription($description);
+            $post->setCategory($category);
+
+            // $em->persist($post);
+            $em->flush();
+            $this->addFlash('message', 'Post updated successfully');
+            return $this->redirectToRoute('view_post_route');
+        }
+
+        return $this->render("pages/update.html.twig", [
+            'form' => $form->createView()
+        ]);
     }
     /**
      * @Route("/post/show/{id}", name="show_post_route")
