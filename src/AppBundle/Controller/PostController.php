@@ -123,7 +123,13 @@ class PostController extends Controller
      * @Route("/post/delete/{id}", name="delete_post_route")
      */
     public function deletePostAction($id, Request $request) {
-        return $this->render("pages/delete.html.twig");
+        $em = $this->getDoctrine()->getManager();
+        $post = $em->getRepository('AppBundle:Post')->find($id);
+        $em->remove($post);
+        $em->flush();
+        $this->addFlash('message', 'Post deleted successfully');
+        return $this->redirectToRoute('view_post_route');
+        // return $this->render("pages/delete.html.twig");
     }
 
 
