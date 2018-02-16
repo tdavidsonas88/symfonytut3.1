@@ -66,7 +66,16 @@ class PostController extends Controller
      * @Route("/post/show/{id}", name="show_post_route")
      */
     public function showPostAction($id, Request $request) {
-        return $this->render("pages/view.html.twig");
+        // echo $id;
+        // exit();
+        $post = $this->getDoctrine()->getRepository('AppBundle:Post')->find($id);
+        // echo '<pre>';
+        // print_r($posts);
+        // echo '</pre>';
+        // exit();
+        return $this->render("pages/view.html.twig", [
+            'post' => $post
+        ]);
     }
     /**
      * @Route("/post/delete/{id}", name="delete_post_route")

@@ -1,5 +1,8 @@
 {{ include('pages/inc/header.html.twig') }}
 <div class="container">
+    <br>
+    <a href="{{ absolute_url(asset('')) }}post" class="btn btn-primary">Back</a>
+    <br><br>
     <h3>CREATE POSTS</h3>
     {{ form_start(form) }}
     {{ form_widget(form) }}
